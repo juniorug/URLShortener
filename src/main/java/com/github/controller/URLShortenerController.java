@@ -1,28 +1,22 @@
 package com.github.controller;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.github.exception.NotFoundException;
@@ -49,7 +43,6 @@ public class URLShortenerController {
 
     @RequestMapping(value = "/getShortenedURLByShortUrl", method = RequestMethod.GET, produces = "application/json")
     public ShortenedURL getShortenedURLByShortUrl(@RequestParam("shortURL") String shortURL) {
-        System.out.println("getShortenedURLByShortUrl! shortURL:" + shortURL);
         ShortenedURL shortenedURL = shortenedURLService.findByShortUrl(shortURL);
         if (null == shortenedURL) {
             throw new NotFoundException("shortenedURL not found");
@@ -87,13 +80,9 @@ public class URLShortenerController {
     }
     
     private ResponseEntity<?> redirectPage(String shortURL) throws URISyntaxException {
-        System.out.println("redirect! shortURL:" + shortURL);
         HttpHeaders headers = new HttpHeaders();
         ShortenedURL shortenedURL = shortenedURLService.findByShortUrl(shortURL);
-        System.out.println("shortURL.url:" + shortenedURL.getUrl());
-        System.out.println("shortURL.count:" + shortenedURL.getAccessCount());
         if (null == shortenedURL.getId()) {
-            System.out.println("null == shortenedURL");
             return new ResponseEntity<>(headers, HttpStatus.NOT_FOUND);
         }
         shortenedURLService.incrementAccessCount(shortenedURL.getShortUrl());
@@ -122,53 +111,5 @@ public class URLShortenerController {
         Collections.sort(shortenedURLList, (e1, e2) -> e1.getId().compareTo(e2.getId())); ;
         return shortenedURLList;
     }
-    
-    
-    
-    //Model Methods
-    @RequestMapping(value="/", method=RequestMethod.GET)
-    public String showForm(ShortenedURL request) {
-        return "shortenedurls";
-    }
-    
-   /* @RequestMapping(value="/", method=RequestMethod.POST)
-    public ModelAndView getAllShortenedURLModel() {
-      System.out.println("getAllShortenedURLModel!");
-      return new ModelAndView("shortenedURLs", "shortenedURLs", shortenedURLService.findAll());
-    }*/
-    
-    private boolean isUrlValid(String url) {
-        boolean valid = true;
-        try {
-            new URL(url);
-        } catch (MalformedURLException e) {
-            valid = false;
-        }
-        return valid;
-    }
-    
-    @RequestMapping(value="/", method = RequestMethod.POST)
-    public ModelAndView shortenUrl(HttpServletRequest httpRequest,
-                                   @Valid ShortenedURL request,
-                                   BindingResult bindingResult) {
-        System.out.println("getAllShortenedURLModel!");
-        String url = request.getUrl();
-        if (!isUrlValid(url)) {
-            bindingResult.addError(new ObjectError("url", "Invalid url format: " + url));
-        }
-
-        ModelAndView modelAndView = new ModelAndView("shortenedURLs");
-        if (!bindingResult.hasErrors()) {
-            
-            shortenedURLService.save(new ShortenedURL());
-            String requestUrl = httpRequest.getRequestURL().toString();
-            String prefix = requestUrl.substring(0, requestUrl.indexOf(httpRequest.getRequestURI(),
-                "http://".length()));
-
-            modelAndView.addObject("shortenedURLs", prefix + "/");
-        }
-        return modelAndView;
-    }
-
-    
+ 
 }
