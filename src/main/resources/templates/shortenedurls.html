@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+</head>
+<body>
+	<div class="container">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>SHORT_URL</th>
+					<th>URL</th>
+					<th>ACCESS_COUNT</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- TODO: Content -->
+				<tr th:each="item, status : ${shortenedURLs}">
+					<td th:text="${status.count}">1</td>
+					<td th:text="${item.shortUrl}">SHORT_URL</td>
+					<td th:text="${item.url}">URL</td>
+					<td th:text="${item.accessCount}">ACCESS_COUNT</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

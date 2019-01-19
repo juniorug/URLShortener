@@ -1,7 +1,9 @@
 package com.github.service;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 
 import com.github.model.ShortenedURL;
@@ -17,8 +19,9 @@ public interface ShortenedURLService {
     
     Integer getAccessCount(String shortUrl);
     
+    String getUrl(String shortUrl);
+    
     void incrementAccessCount(String shortUrl);
     
-    //redirect
-    
+    List<ShortenedURL> findAll();
 }
