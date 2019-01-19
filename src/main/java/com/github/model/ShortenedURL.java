@@ -29,7 +29,7 @@ public class ShortenedURL {
     private String url;
 
     @Column(name="accessCount")
-    private int accessCount;
+    private int accessCount = 0;
     
     public Long getId() {
         return id;
