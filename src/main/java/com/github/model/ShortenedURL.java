@@ -23,13 +23,34 @@ public class ShortenedURL {
     @Column(name="shortUrl", unique=true)
     private String shortUrl;
     
-    @NotNull
+    //@NotNull
     @Size(min = 5, max = 1024)
     @Column(name="url")
     private String url;
 
-    @Column(name="accessCount")
-    private int accessCount = 0;
+    @Column(name="accessCount", columnDefinition="Decimal(10) default '0'")
+    private int accessCount;
+
+    public ShortenedURL() {
+        
+    }
+    
+    public ShortenedURL(String shortUrl) {
+        this.shortUrl = shortUrl;
+    }
+    
+    public ShortenedURL(String shortUrl, String url ) {
+        this.shortUrl = shortUrl;
+        this.url = url;
+        this.accessCount = 0;
+    }
+    
+    public ShortenedURL(Long id, String shortUrl, String url, int accessCount) {
+        this.id = id;
+        this.shortUrl = shortUrl;
+        this.url = url;
+        this.accessCount = accessCount;
+    }
     
     public Long getId() {
         return id;

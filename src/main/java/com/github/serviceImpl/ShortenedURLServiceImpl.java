@@ -31,7 +31,7 @@ public class ShortenedURLServiceImpl implements ShortenedURLService {
     }
 
     @Override
-    public int getAccessCount(String shortUrl) {
+    public Integer getAccessCount(String shortUrl) {
         return shortenedURLRepository.getAccessCount(shortUrl);
     }
 

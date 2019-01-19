@@ -15,7 +15,7 @@ public interface ShortenedURLService {
     
     ShortenedURL findByShortUrl(String shortUrl);
     
-    int getAccessCount(String shortUrl);
+    Integer getAccessCount(String shortUrl);
     
     void incrementAccessCount(String shortUrl);
     
