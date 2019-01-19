@@ -15,8 +15,8 @@ public interface ShortenedURLRepository extends CrudRepository<ShortenedURL, Lon
     ShortenedURL findByShortUrl(String shortUrl);
     
     @Query("SELECT s.accessCount FROM ShortenedURL s WHERE shortUrl = :inShortUrl")
-    int getAccessCount(@Param("shortUrl") String inShortUrl);
+    int getAccessCount(@Param("inShortUrl") String inShortUrl);
     
     @Query("Update ShortenedURL s Set s.accessCount = s.accessCount + 1 WHERE shortUrl = :inShortUrl")
-    void incrementAccessCount(@Param("shortUrl") String inShortUrl);
+    void incrementAccessCount(@Param("inShortUrl") String inShortUrl);
 }

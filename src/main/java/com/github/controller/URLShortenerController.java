@@ -21,12 +21,11 @@ import com.github.service.ShortenedURLService;
 
 
 @RestController
-public class GithubApiRestController {
+public class URLShortenerController {
 	
 	@Autowired
     private ShortenedURLService shortenedURLService;
 	
-    
     @RequestMapping(value = "/shortenedURL", method = RequestMethod.POST)
     public ResponseEntity<?> addShortenedURL(@Valid  @RequestBody ShortenedURL shortenedURL, UriComponentsBuilder ucBuilder) {
     	HttpHeaders headers = new HttpHeaders();
